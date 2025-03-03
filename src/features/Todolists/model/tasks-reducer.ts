@@ -7,8 +7,7 @@ import { tasksApi } from "../api/tasksApi";
 import { DomainTask, DomainTaskSchema, UpdateTaskModel } from "../api/tasksApi.types";
 import { ResultCode, TaskStatus } from "@/common/enums";
 import { RootState } from "@/app/store";
-import { CreateTodolistActionType, RemoveTodolistActionType } from "./todolists-reducer";
-import { setAppErrorAC, setAppStatusAC } from "@/app/app-reducer";
+import { setAppError, setAppStatus } from "@/app/app-reducer";
 import { handleServerAppError } from "@/common/utils/handleServerAppError";
 import { handleServerNetworkError } from "@/common/utils/handleServerNetworkError";
 
@@ -61,7 +60,7 @@ export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
 export type UpdateTaskActionType = ReturnType<typeof updateTaskAC>;
 
 
-type ActionsType = SetTasksActionType | AddTaskActionType | RemoveTaskActionType | ChangeTaskStatusActionType | ChangeTaskTitleActionType | UpdateTaskActionType | RemoveTodolistActionType | CreateTodolistActionType;
+type ActionsType = SetTasksActionType | AddTaskActionType | RemoveTaskActionType | ChangeTaskStatusActionType | ChangeTaskTitleActionType | UpdateTaskActionType;
 
 
 
@@ -118,13 +117,13 @@ export const tasksReducer = (
 
 
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC('loading'));
+  dispatch(setAppStatus({ status: 'loading' }));
   tasksApi.getTasks(todolistId).then(res => {
-    // dispatch(setAppStatusAC('succeeded'));
+    // dispatch(setAppStatus('succeeded'));
     // const tasks = res.data.items;
     // dispatch(setTasksAC({ todolistId, tasks }));
     const tasks = DomainTaskSchema.array().parse(res.data.items);
-    dispatch(setAppStatusAC('succeeded'));
+    dispatch(setAppStatus({ status: 'succeeded' }));
     return { tasks };
   }).catch((error) => {
     handleServerNetworkError(error, dispatch);
@@ -133,11 +132,11 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
 
 export const removeTaskTC =
   (arg: { taskId: string; todolistId: string; }) => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC('loading'));
+    dispatch(setAppStatus({ status: 'loading' }));
     tasksApi.deleteTask(arg).then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(removeTaskAC(arg));
-        dispatch(setAppStatusAC('succeeded'));
+        dispatch(setAppStatus({ status: 'succeeded' }));
       } else {
         handleServerAppError(res.data, dispatch);
       }
@@ -147,10 +146,10 @@ export const removeTaskTC =
   };
 
 export const addTaskTC = (arg: { title: string, todolistId: string; }) => (dispatch: Dispatch) => {
-  dispatch(setAppStatusAC('loading'));
+  dispatch(setAppStatus({ status: 'loading' }));
   tasksApi.createTask(arg).then((res) => {
     if (res.data.resultCode === ResultCode.Success) {
-      dispatch(setAppStatusAC('succeeded'));
+      dispatch(setAppStatus({ status: 'succeeded' }));
       dispatch(addTaskAC({ task: res.data.data.item }));
     } else {
       handleServerAppError(res.data, dispatch);
@@ -212,7 +211,7 @@ export const changeTaskTitleTC =
 export const updateTaskTC =
   (arg: { taskId: string; title?: string; status?: TaskStatus, todolistId: string; }) =>
     (dispatch: Dispatch, getState: () => RootState) => {
-      dispatch(setAppStatusAC('loading'));
+      dispatch(setAppStatus({ status: 'loading' }));
       const { taskId, todolistId, title, status } = arg;
 
       const allTasksFromState = getState().tasks;
@@ -236,13 +235,13 @@ export const updateTaskTC =
                 dispatch(updateTaskAC(arg));
               } else {
                 if (res.data.messages.length) {
-                  dispatch(setAppErrorAC(res.data.messages[0]));
+                  dispatch(setAppError(res.data.messages[0]));
                 } else {
                   handleServerAppError(res.data, dispatch);
                 }
 
               }
-              dispatch(setAppStatusAC('succeeded'));
+              dispatch(setAppStatus({ status: 'succeeded' }));
             } else {
               handleServerAppError(res.data, dispatch);
             }

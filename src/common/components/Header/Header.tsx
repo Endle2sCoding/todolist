@@ -1,4 +1,3 @@
-import { changeThemeModeAC } from "@/app/app-reducer";
 import { selectAppStatus, selectThemeMode } from "@/app/app-selectors";
 import { useAppDispatch } from "@/common/hooks";
 import { useAppSelector } from "@/common/hooks";
@@ -14,6 +13,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavButton } from "@/common/components";
 import { containerSx } from "@/common/styles";
+import { changeTheme } from "@/app/app-reducer";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);
@@ -25,7 +25,7 @@ export const Header = () => {
 
   const changeMode = () => {
     dispatch(
-      changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" })
+      changeTheme({ themeMode: themeMode === "light" ? "dark" : "light" })
     );
   };
 
