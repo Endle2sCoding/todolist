@@ -1,19 +1,21 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { tasksReducer } from "../features/Todolists/model/tasks-reducer";
-import { todolistsReducer } from "../features/Todolists/model/todolists-reducer";
-import { appReducer } from "./app-reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import { tasksReducer, tasksSlice } from "../features/Todolists/model/tasks-reducer";
+import { todolistsReducer, todolistsSlice } from "../features/Todolists/model/todolists-reducer";
+import { appReducer, appSlice } from "./app-reducer";
+import { authReducer, authSlice } from "@/features/auth/lib/slices/authSlice";
 
 
 // объединение reducer'ов с помощью combineReducers
-const rootReducer = combineReducers({
-  app: appReducer,
-  tasks: tasksReducer,
-  todolists: todolistsReducer,
-});
+
 
 // создание store
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    [tasksSlice.name]: tasksReducer,
+    [todolistsSlice.name]: todolistsReducer,
+    [appSlice.name]: appReducer,
+    [authSlice.name]: authReducer,
+  },
 });
 
 // автоматическое определение типа всего объекта состояния

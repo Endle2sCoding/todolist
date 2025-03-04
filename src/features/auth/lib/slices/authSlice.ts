@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: 'authorization',
   initialState: {
     isLoggedIn: false,
     isInitialized: false,
@@ -19,8 +19,13 @@ export const authSlice = createSlice({
       state.isInitialized = action.payload.isInitialized;
     }),
   }),
+  selectors: {
+    selectIsLoggedIn: state => state.isLoggedIn,
+    selectIsInitialized: state => state.isInitialized,
+  },
 });
 
 export const { setIsLoggedIn, setIsInitialized } = authSlice.actions;
 // Создаем reducer при помощи slice
 export const authReducer = authSlice.reducer;
+export const { selectIsLoggedIn, selectIsInitialized } = authSlice.selectors;

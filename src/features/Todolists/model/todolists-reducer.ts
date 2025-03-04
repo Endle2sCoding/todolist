@@ -23,7 +23,7 @@ const initialState: DomainTodolist[] = [];
 
 
 export const todolistsSlice = createSlice({
-  name: "todolist",
+  name: "todolists",
   initialState,
   reducers: create => ({
     removeTodolist: create.reducer<{ id: string; }>((state, action) => {
@@ -39,6 +39,12 @@ export const todolistsSlice = createSlice({
       const index = state.findIndex(tl => tl.id === action.payload.id);
       if (index !== -1) {
         state[index].title = action.payload.title;
+      }
+    }),
+    changeTodolistFilter: create.reducer<{ id: string; filter: FilterValues; }>((state, action) => {
+      const index = state.findIndex(tl => tl.id === action.payload.id);
+      if (index !== -1) {
+        state[index].filter = action.payload.filter;
       }
     }),
     changeTodolistEntityStatus: create.reducer<{ id: string; entityStatus: RequestStatus; }>(
@@ -62,7 +68,7 @@ export const todolistsSlice = createSlice({
     }),
   }),
 });
-export const { addTodolist, changeTodolistEntityStatus, changeTodolistTitle, clearTodolists, removeTodolist, setTodolists } = todolistsSlice.actions;
+export const { addTodolist, changeTodolistEntityStatus, changeTodolistTitle, clearTodolists, removeTodolist, setTodolists, changeTodolistFilter } = todolistsSlice.actions;
 export const todolistsReducer = todolistsSlice.reducer;
 
 

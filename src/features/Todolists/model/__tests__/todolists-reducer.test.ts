@@ -5,7 +5,7 @@ import {
   DomainTodolist,
   removeTodolist,
   todolistsReducer,
-  changeTodolistTitle,
+  changeTodolistTitle, changeTodolistFilter
 } from "../todolists-reducer";
 
 import { beforeEach, expect, test } from "vitest";
@@ -60,10 +60,10 @@ test("correct todolist should change its title", () => {
   expect(endState[1].title).toBe(title);
 });
 
-// test("correct todolist should change its filter", () => {
-//   const filter = "completed";
-//   const endState = todolistsReducer(startState, changeTodolistFilter({ id: todolistId2, filter }));
+test("correct todolist should change its filter", () => {
+  const filter = "completed";
+  const endState = todolistsReducer(startState, changeTodolistFilter({ id: todolistId2, filter }));
 
-//   expect(endState[0].filter).toBe("all");
-//   expect(endState[1].filter).toBe(filter);
-// });
+  expect(endState[0].filter).toBe("all");
+  expect(endState[1].filter).toBe(filter);
+});

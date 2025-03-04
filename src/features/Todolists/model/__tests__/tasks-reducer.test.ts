@@ -1,11 +1,11 @@
-import { beforeEach, expect, test } from "vitest";
+import { beforeEach, test } from "vitest";
 
 // import { tasksReducer } from "../tasks-reducer";
 // import { createTodolistAC, deleteTodolistAC } from "../todolists-reducer";
 // import { DomainTask } from "../../api/tasksApi.types";
 import { TaskPriority, TaskStatus } from "@/common/enums";
 import { TasksState } from "@/app/App";
-let startState: TasksState = {};
+export let startState: TasksState = {};
 
 beforeEach(() => {
   startState = {
