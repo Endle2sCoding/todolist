@@ -49,7 +49,12 @@ export const Header = () => {
             >
               Login
             </NavButton>
-            <NavButton color="inherit">Sign up</NavButton>
+            <NavButton
+              color="inherit"
+              href="/signup"
+            >
+              Sign up
+            </NavButton>
             <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
             <Switch
               color={"default"}
