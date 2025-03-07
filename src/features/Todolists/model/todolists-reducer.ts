@@ -4,7 +4,7 @@
 import { Dispatch } from 'redux';
 import { FilterValues } from "@/app/App";
 import { Todolist } from "../api/todolistsApi.types";
-import { todolistsApi } from '../api/todolistsApi';
+import { _todolistsApi } from '../api/todolistsApi';
 import { RequestStatus, setAppStatus } from '@/app/app-reducer';
 import { handleServerNetworkError } from '@/common/utils/handleServerNetworkError';
 import { handleServerAppError } from '@/common/utils/handleServerAppError';
@@ -74,7 +74,7 @@ export const todolistsReducer = todolistsSlice.reducer;
 
 export const fetchTodolistsThunk = (dispatch: Dispatch) => {
   dispatch(setAppStatus({ status: 'loading' }));
-  todolistsApi.getTodolists().then(res => {
+  _todolistsApi.getTodolists().then(res => {
     dispatch(setAppStatus({ status: 'succeeded' }));
     dispatch(setTodolists({ todolists: res.data }));
   }).catch((error) => {
@@ -83,7 +83,7 @@ export const fetchTodolistsThunk = (dispatch: Dispatch) => {
 };
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatus({ status: 'loading' }));
-  todolistsApi.createTodolist(title).then(res => {
+  _todolistsApi.createTodolist(title).then(res => {
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(setAppStatus({ status: 'succeeded' }));
       dispatch(addTodolist({ todolist: res.data.data.item }));
@@ -98,7 +98,7 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
 export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatus({ status: 'loading' }));
   dispatch(changeTodolistEntityStatus({ id, entityStatus: 'loading' }));
-  todolistsApi.deleteTodolist(id).then((res) => {
+  _todolistsApi.deleteTodolist(id).then((res) => {
     if (res.data.resultCode === ResultCode.Success) {
       dispatch(setAppStatus({ status: 'succeeded' }));
       dispatch(removeTodolist({ id: id }));
@@ -118,7 +118,7 @@ export const removeTodolistTC = (id: string) => (dispatch: Dispatch) => {
 export const updateTodolistTitleTC =
   (arg: { id: string; title: string; }) => (dispatch: Dispatch) => {
     dispatch(setAppStatus({ status: 'loading' }));
-    todolistsApi.changeTodolistTitle(arg).then((res) => {
+    _todolistsApi.changeTodolistTitle(arg).then((res) => {
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setAppStatus({ status: 'succeeded' }));
         dispatch(changeTodolistTitle(arg));
