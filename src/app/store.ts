@@ -3,8 +3,8 @@ import { tasksReducer, tasksSlice } from "../features/Todolists/model/tasks-redu
 import { todolistsReducer, todolistsSlice } from "../features/Todolists/model/todolists-reducer";
 import { appReducer, appSlice } from "./app-reducer";
 import { authReducer, authSlice } from "@/features/auth/lib/slices/authSlice";
-import { todolistsApi } from "@/features/Todolists/api/todolistsApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { baseApi } from "./baseApi";
 
 
 // создание store
@@ -14,9 +14,9 @@ export const store = configureStore({
     [todolistsSlice.name]: todolistsReducer,
     [appSlice.name]: appReducer,
     [authSlice.name]: authReducer,
-    [todolistsApi.reducerPath]: todolistsApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(todolistsApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),
 });
 // автоматическое определение типа всего объекта состояния
 export type RootState = ReturnType<typeof store.getState>;

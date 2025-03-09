@@ -1,18 +1,15 @@
 import { TodolistItem } from "@/features/Todolists/ui/TodolistItem/TodolistItem";
 import { Grid2 as Grid, Paper } from "@mui/material";
-import {
-  useGetTodolistsQuery
-} from "../api/todolistsApi";
-
+import { useGetTodolistsQuery } from "../api/todolistsApi";
 
 export const Todolists = () => {
-
   const { data: todolists } = useGetTodolistsQuery();
-
-
 
   return (
     <>
+      {/* <div>
+        <button onClick={refetch}>Получить свежие данные</button>
+      </div> */}
 
       {todolists?.map((tl) => {
         return (
