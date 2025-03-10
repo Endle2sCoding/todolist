@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { tasksReducer, tasksSlice } from "../features/Todolists/model/tasks-reducer";
 import { todolistsReducer, todolistsSlice } from "../features/Todolists/model/todolists-reducer";
 import { appReducer, appSlice } from "./app-reducer";
-import { authReducer, authSlice } from "@/features/auth/lib/slices/authSlice";
+import { authReducer, authSlice } from "@/features/auth/authSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { baseApi } from "./baseApi";
 

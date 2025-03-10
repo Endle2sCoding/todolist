@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import s from "./Login.module.css";
-import { Inputs, loginSchema } from "@/features/auth/lib/schemas";
+import { Inputs, loginSchema } from "../../loginSchema";
 
 export const Login = () => {
   const themeMode = useAppSelector(selectThemeMode);
@@ -26,7 +26,7 @@ export const Login = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "", rememberMe: false },
-  });
+  }); 
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);

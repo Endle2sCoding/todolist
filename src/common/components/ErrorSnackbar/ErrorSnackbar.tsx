@@ -11,6 +11,8 @@ export const ErrorSnackbar = () => {
   // const [open, setOpen] = useState(true)
 
   const handleClose = (event: SyntheticEvent | Event, reason?: string) => {
+    console.log(event);
+
     if (reason === "clickaway") {
       return dispatch(setAppError({ error: null }));
     }

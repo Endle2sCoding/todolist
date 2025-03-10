@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
-
-
 export const authSlice = createSlice({
   name: 'authorization',
   initialState: {
-    isLoggedIn: false,
+    isLoggedIn: true,
     isInitialized: false,
   },
   // reducers состоит из подредьюсеров, каждый из которых эквивалентен одному
   // оператору case в switch, как мы делали раньше (обычный redux)
   reducers: create => ({
+    
     setIsLoggedIn: create.reducer<{ isLoggedIn: boolean; }>((state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
     }),
+
     setIsInitialized: create.reducer<{ isInitialized: boolean; }>((state, action) => {
       state.isInitialized = action.payload.isInitialized;
     }),

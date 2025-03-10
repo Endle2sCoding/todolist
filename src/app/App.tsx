@@ -12,7 +12,10 @@ import { useEffect } from "react";
 import { fetchTodolistsThunk } from "@/features/Todolists/model/todolists-reducer";
 import { DomainTask } from "@/features/Todolists/api/tasksApi.types";
 import { ErrorSnackbar } from "@/common/components/ErrorSnackbar";
-import { Routing } from "@/common/routing/Routing";
+import { Path, Routing } from "@/common/routing/Routing";
+
+import { useNavigate } from "react-router";
+import { selectIsLoggedIn } from "@/features/auth/authSlice";
 
 export type TodolistType = {
   id: string;
@@ -34,11 +37,20 @@ export const App = () => {
   const themeMode = useAppSelector(selectThemeMode);
   const theme = getTheme(themeMode);
 
+  // onst { data, isLoading } = useMeQuery()
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   useEffect(() => {
     dispatch(fetchTodolistsThunk);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(Path.Login);
+    }
+  }, [isLoggedIn]);
 
   return (
     <ThemeProvider theme={theme}>
