@@ -10,7 +10,7 @@ export const authSlice = createSlice({
   // reducers состоит из подредьюсеров, каждый из которых эквивалентен одному
   // оператору case в switch, как мы делали раньше (обычный redux)
   reducers: create => ({
-    
+
     setIsLoggedIn: create.reducer<{ isLoggedIn: boolean; }>((state, action) => {
       state.isLoggedIn = action.payload.isLoggedIn;
     }),
