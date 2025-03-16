@@ -1,29 +1,30 @@
-// import { createTaskAC } from "@/features/Todolists/model/tasks-reducer"
-
-import { useAppDispatch } from "@/common/hooks"
-import { TodolistTitle } from "@/features/Todolists/ui/TodolistItem/TodolistTitle/TodolistTitle"
-import { FilterButtons } from "@/features/Todolists/ui/TodolistItem/FilterButtons/FilterButtons"
-import { Tasks } from "@/features/Todolists/ui/TodolistItem/Tasks/Tasks"
-import { CreateItemForm } from "@/common/components"
-import { DomainTodolist } from "../../model/todolists-reducer"
-import { addTaskTC } from "../../model/tasks-reducer"
+import { TodolistTitle } from "@/features/Todolists/ui/TodolistItem/TodolistTitle/TodolistTitle";
+import { FilterButtons } from "@/features/Todolists/ui/TodolistItem/FilterButtons/FilterButtons";
+import { Tasks } from "@/features/Todolists/ui/TodolistItem/Tasks/Tasks";
+import { CreateItemForm } from "@/common/components";
+import { TodolistType } from "../../model/types/todolist";
 
 interface TodolistItemProps {
-  todolist: DomainTodolist
+  todolist: TodolistType;
+  removeTodolist: (id: string) => void;
+  changeTodolistTitle: (id: string, title: string) => void;
 }
-
-export const TodolistItem = ({ todolist }: TodolistItemProps) => {
-  const dispatch = useAppDispatch()
-
-  const createTask = (title: string) => {
-    dispatch(addTaskTC({ todolistId: todolist.id, title: title }))
-  }
+export const TodolistItem = ({
+  todolist,
+  removeTodolist,
+  changeTodolistTitle,
+}: TodolistItemProps) => {
+  const createTask = (title: string) => {};
   return (
     <div>
-      <TodolistTitle todolist={todolist} />
-      <CreateItemForm onCreateItem={createTask} disabled={todolist.entityStatus === "loading"} />
+      <TodolistTitle
+        changeTodolistTitle={changeTodolistTitle}
+        removeTodolist={removeTodolist}
+        todolist={todolist}
+      />
+      <CreateItemForm onCreateItem={createTask} />
       <Tasks todolist={todolist} />
       <FilterButtons todolist={todolist} />
     </div>
-  )
-}
+  );
+};

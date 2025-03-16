@@ -3,17 +3,27 @@ import { CreateItemForm } from "@/common/components";
 import { Container, Grid2 as Grid } from "@mui/material";
 
 import { Todolists } from "@/features/Todolists/ui/Todolists";
-// import { useAppDispatch } from "@/common/hooks";
-// import { addTodolistTC } from "@/features/Todolists/model/todolists-reducer";
-import { useAddTodolistMutation } from "@/features/Todolists/api/todolistsApi";
+import { useReducer, useState } from "react";
+import { TasksState } from "@/features/Todolists/model/types/todolist";
+import {
+  changeTodolistTitleAC,
+  createTodolistAC,
+  removeTodolistAC,
+  todolistsReducer,
+} from "@/features/Todolists/model/todolists-reducer";
 
 export const Main = () => {
-  const [addTodolist] = useAddTodolistMutation();
-  // const dispatch = useAppDispatch();
+  const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, []);
+  const [tasks, setTasks] = useState<TasksState>({});
 
   const createTodolist = (title: string) => {
-    // dispatch(addTodolistTC(title));
-    addTodolist(title);
+    dispatchToTodolists(createTodolistAC(title));
+  };
+  const removeTodolist = (id: string) => {
+    dispatchToTodolists(removeTodolistAC(id));
+  };
+  const changeTodolistTitle = (id: string, title: string) => {
+    dispatchToTodolists(changeTodolistTitleAC({ id, title }));
   };
   return (
     <Container maxWidth={"lg"}>
@@ -27,7 +37,11 @@ export const Main = () => {
         container
         spacing={4}
       >
-        <Todolists />
+        <Todolists
+          todolists={todolists}
+          removeTodolist={removeTodolist}
+          changeTodolistTitle={changeTodolistTitle}
+        />
       </Grid>
     </Container>
   );
