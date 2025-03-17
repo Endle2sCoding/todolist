@@ -1,22 +1,28 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { tasksReducer, tasksSlice } from "../features/Todolists/model/tasks-reducer";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { tasksReducer } from "../features/Todolists/model/tasks-reducer";
 // import { todolistsReducer } from "../features/Todolists/model/todolists-reducer";
 import { appReducer, appSlice } from "./app-reducer";
 import { authReducer, authSlice } from "@/features/auth/api/authSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { baseApi } from "./baseApi";
+import { todolistsReducer } from "@/features/Todolists/model/todolists-reducer";
 
 
 // создание store
+
+
+const rootReducer = combineReducers({
+  tasks: tasksReducer,
+  todolists: todolistsReducer,
+  [appSlice.name]: appReducer,
+  [authSlice.name]: authReducer,
+  [baseApi.reducerPath]: baseApi.reducer,
+  auth: authReducer
+});
+
+// создание store
 export const store = configureStore({
-  reducer: {
-    tasks: tasksReducer,
-    // todolists: todolistsReducer,
-    [appSlice.name]: appReducer,
-    [authSlice.name]: authReducer,
-    [baseApi.reducerPath]: baseApi.reducer,
-    auth: authReducer
-  }
+  reducer: rootReducer,
 });
 // автоматическое определение типа всего объекта состояния
 export type RootState = ReturnType<typeof store.getState>;

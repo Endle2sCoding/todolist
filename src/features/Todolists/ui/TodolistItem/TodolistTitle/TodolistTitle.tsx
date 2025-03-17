@@ -9,6 +9,7 @@ type Props = {
   todolist: TodolistType;
   removeTodolist: (id: string) => void;
   changeTodolistTitle: (id: string, title: string) => void;
+  
 };
 
 export const TodolistTitle = ({

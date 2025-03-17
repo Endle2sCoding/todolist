@@ -1,33 +1,53 @@
-import { TaskStatus } from "@/common/enums";
-import { useAppDispatch, useAppSelector } from "@/common/hooks";
-
-import { selectTasks } from "@/features/Todolists/model/tasks-selectors";
-import { TodolistType } from "@/features/Todolists/model/types/todolist";
+import {
+  TasksType,
+  TodolistType,
+} from "@/features/Todolists/model/types/todolist";
 
 import { TaskItem } from "@/features/Todolists/ui/TodolistItem/Tasks/TaskItem/TaskItem";
 import { List } from "@mui/material";
-import { useEffect } from "react";
 
 type Props = {
   todolist: TodolistType;
+  tasks: TasksType;
+  removeTask: ({
+    todolistId,
+    taskId,
+  }: {
+    todolistId: string;
+    taskId: string;
+  }) => void;
+  changeTaskTitle: ({
+    todolistId,
+    taskId,
+    title,
+  }: {
+    todolistId: string;
+    taskId: string;
+    title: string;
+  }) => void;
+  changeTaskStatus: ({
+    todolistId,
+    taskId,
+    isDone,
+  }: {
+    todolistId: string;
+    taskId: string;
+    isDone: boolean;
+  }) => void;
 };
-export const Tasks = ({ todolist }: Props) => {
-  const tasks = useAppSelector(selectTasks);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {}, [dispatch, todolist.id]);
-
+export const Tasks = ({
+  todolist,
+  removeTask,
+  changeTaskTitle,
+  changeTaskStatus,
+  tasks,
+}: Props) => {
   let filtredTasks = tasks[todolist.id];
   if (todolist.filter === "completed") {
-    filtredTasks = tasks[todolist.id].filter(
-      (t) => t.status === TaskStatus.Completed
-    );
+    filtredTasks = tasks[todolist.id].filter((t) => t.isDone === true);
   }
   if (todolist.filter === "active") {
-    filtredTasks = tasks[todolist.id].filter(
-      (t) => t.status === TaskStatus.New
-    );
+    filtredTasks = tasks[todolist.id].filter((t) => t.isDone === false);
   }
   return (
     <>
@@ -39,6 +59,9 @@ export const Tasks = ({ todolist }: Props) => {
             filtredTasks.map((t) => {
               return (
                 <TaskItem
+                  removeTask={removeTask}
+                  changeTaskTitle={changeTaskTitle}
+                  changeTaskStatus={changeTaskStatus}
                   todolist={todolist}
                   key={t.id}
                   task={t}
