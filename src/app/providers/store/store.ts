@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { tasksReducer } from "../features/Todolists/model/tasks-reducer";
+import { tasksReducer } from "../../../features/Todolists/model/tasks-reducer";
 // import { todolistsReducer } from "../features/Todolists/model/todolists-reducer";
-import { appReducer, appSlice } from "./app-reducer";
+import { appReducer } from "../../app-reducer";
 import { authReducer, authSlice } from "@/features/auth/api/authSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { baseApi } from "./baseApi";
+import { baseApi } from "../../baseApi";
 import { todolistsReducer } from "@/features/Todolists/model/todolists-reducer";
 
 
@@ -14,7 +14,7 @@ import { todolistsReducer } from "@/features/Todolists/model/todolists-reducer";
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todolistsReducer,
-  [appSlice.name]: appReducer,
+  app: appReducer,
   [authSlice.name]: authReducer,
   [baseApi.reducerPath]: baseApi.reducer,
   auth: authReducer

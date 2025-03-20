@@ -20,7 +20,7 @@ test('correct todolist should be deleted', () => {
 
   // 2. Действие
 
-  const endState = todolistsReducer(startState, removeTodolistAC(todolistId1));
+  const endState = todolistsReducer(startState, removeTodolistAC({ id: todolistId1 }));
 
   // 3. Проверка, что действие измененило state соответствующим образом
   // в массиве останется один тудулист
@@ -31,7 +31,7 @@ test('correct todolist should be deleted', () => {
 
 test('correct todolist should be created', () => {
   const title = 'New todolist';
-  const endState = todolistsReducer(startState, createTodolistAC(title));
+  const endState = todolistsReducer(startState, createTodolistAC({ title, id: nanoid() }));
 
   expect(endState.length).toBe(3);
   expect(endState[2].title).toBe(title);

@@ -13,7 +13,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavButton } from "@/common/components";
 import { containerSx } from "@/common/styles";
-import { changeTheme } from "@/app/app-reducer";
+import { changeThemeModeAC } from "@/app/app-reducer";
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode);
@@ -25,7 +25,7 @@ export const Header = () => {
 
   const changeMode = () => {
     dispatch(
-      changeTheme({ themeMode: themeMode === "light" ? "dark" : "light" })
+      changeThemeModeAC({ themeMode: themeMode === "light" ? "dark" : "light" })
     );
   };
 

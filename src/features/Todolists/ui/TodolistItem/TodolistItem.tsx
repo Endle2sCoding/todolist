@@ -1,8 +1,8 @@
 import { TodolistTitle } from "@/features/Todolists/ui/TodolistItem/TodolistTitle/TodolistTitle";
 import { FilterButtons } from "@/features/Todolists/ui/TodolistItem/FilterButtons/FilterButtons";
 import { Tasks } from "@/features/Todolists/ui/TodolistItem/Tasks/Tasks";
-import { CreateItemForm } from "@/common/components";
 import { TasksType, TodolistType } from "../../model/types/todolist";
+import { CreateItemForm } from "@/features/CreateItemForm";
 
 interface TodolistItemProps {
   todolist: TodolistType;

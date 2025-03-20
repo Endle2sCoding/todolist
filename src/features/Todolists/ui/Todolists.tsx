@@ -57,6 +57,7 @@ export const Todolists = ({
           <Grid key={tl.id}>
             <Paper sx={{ p: "0 20px 20px 20px" }}>
               <TodolistItem
+                key={tl.id}
                 todolist={tl}
                 tasks={tasks}
                 removeTodolist={removeTodolist}

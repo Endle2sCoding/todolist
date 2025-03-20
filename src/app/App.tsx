@@ -5,11 +5,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { selectThemeMode } from "./app-selectors";
 import { getTheme } from "@/common/theme";
-import { Header } from "@/common/components/Header";
+import { Header } from "@/widgets/Header";
 import { useAppSelector } from "@/common/hooks";
 
 import { ErrorSnackbar } from "@/common/components/ErrorSnackbar";
-import { Routing } from "@/common/routing/Routing";
+import { Routing } from "@/app/providers/routing/Routing";
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode);

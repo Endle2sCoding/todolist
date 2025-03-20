@@ -1,35 +1,40 @@
-import { CreateItemForm } from "@/common/components";
+
 
 import { Container, Grid2 as Grid } from "@mui/material";
 
 import { Todolists } from "@/features/Todolists/ui/Todolists";
-import { useReducer } from "react";
 import {
   changeTodolistTitleAC,
   createTodolistAC,
   removeTodolistAC,
-  todolistsReducer,
+  selectTodolists,
 } from "@/features/Todolists/model/todolists-reducer";
 import {
   changeTaskStatusAC,
   changeTaskTitleAC,
   createTaskAC,
   removeTaskAC,
-  tasksReducer,
+  selectTasks,
 } from "@/features/Todolists/model/tasks-reducer";
+import { useAppDispatch, useAppSelector } from "@/common/hooks";
+
+import { nanoid } from "@reduxjs/toolkit";
+import { CreateItemForm } from "@/features/CreateItemForm";
 
 export const Main = () => {
-  const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, []);
-  const [tasks, dispatchToTasks] = useReducer(tasksReducer, {});
+  const todolists = useAppSelector(selectTodolists);
+  const tasks = useAppSelector(selectTasks);
 
+  const dispatch = useAppDispatch();
   const createTodolist = (title: string) => {
-    dispatchToTodolists(createTodolistAC(title));
+    const id = nanoid();
+    dispatch(createTodolistAC({ id, title }));
   };
   const removeTodolist = (id: string) => {
-    dispatchToTodolists(removeTodolistAC(id));
+    dispatch(removeTodolistAC({ id }));
   };
   const changeTodolistTitle = (id: string, title: string) => {
-    dispatchToTodolists(changeTodolistTitleAC({ id, title }));
+    dispatch(changeTodolistTitleAC({ id, title }));
   };
   const createTask = ({
     todolistId,
@@ -38,7 +43,7 @@ export const Main = () => {
     todolistId: string;
     title: string;
   }) => {
-    dispatchToTasks(
+    dispatch(
       createTaskAC({
         todolistId,
         title,
@@ -53,7 +58,7 @@ export const Main = () => {
     todolistId: string;
     taskId: string;
   }) => {
-    dispatchToTasks(
+    dispatch(
       removeTaskAC({
         todolistId,
         taskId,
@@ -69,7 +74,7 @@ export const Main = () => {
     taskId: string;
     title: string;
   }) => {
-    dispatchToTasks(
+    dispatch(
       changeTaskTitleAC({
         todolistId,
         taskId,
@@ -86,7 +91,7 @@ export const Main = () => {
     taskId: string;
     isDone: boolean;
   }) => {
-    dispatchToTasks(
+    dispatch(
       changeTaskStatusAC({
         todolistId,
         taskId,

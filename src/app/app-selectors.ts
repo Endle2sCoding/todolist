@@ -1,5 +1,5 @@
 import { RequestStatus, ThemeMode } from "./app-reducer";
-import { RootState } from "./store";
+import { RootState } from "./providers/store/store";
 
 export const selectThemeMode = (state: RootState): ThemeMode => state.app.themeMode;
 
