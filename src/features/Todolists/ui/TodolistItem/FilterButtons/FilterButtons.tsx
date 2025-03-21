@@ -1,7 +1,4 @@
-import {
-  FilterValues,
-  TodolistType,
-} from "@/features/Todolists/model/types/todolist";
+import { FilterValues, TodolistType } from "@/features/Todolists/model/types/todolist";
 
 import { containerSx } from "@/common/styles";
 
@@ -18,11 +15,7 @@ export const FilterButtons = ({ todolist }: Props) => {
 
   return (
     <Box sx={containerSx}>
-      <Button
-        variant={filter === "all" ? "outlined" : "text"}
-        color={"inherit"}
-        onClick={() => changeFilter("all")}
-      >
+      <Button variant={filter === "all" ? "outlined" : "text"} color={"inherit"} onClick={() => changeFilter("all")}>
         All
       </Button>
       <Button

@@ -1,7 +1,25 @@
-import { TaskPriority, TaskStatus } from "@/common/enums";
+import { TaskStatus, TaskPriority } from "@/common/enums";
 import { z } from "zod";
 
-export type DomainTask = z.infer<typeof DomainTaskSchema>;
+export const TodolistSchema = z.object({
+    id: z.string(),
+    title: z.string(),
+    addedDate: z.string(),
+    order: z.number()
+  });
+  export type Todolist = z.infer<typeof TodolistSchema>;
+  
+  export type FieldError = {
+  error: string;
+  field: string;
+};
+
+export type BaseResponse<T = object> = {
+  data: T;
+  resultCode: number;
+  messages: string[];
+  fieldsErrors: FieldError[];
+}; export type DomainTask = z.infer<typeof DomainTaskSchema>;
 
 export type GetTasksResponse = {
   error: string | null;
@@ -30,4 +48,5 @@ export type UpdateTaskModel = {
   startDate: string | null;
   deadline: string | null;
 };
+
 

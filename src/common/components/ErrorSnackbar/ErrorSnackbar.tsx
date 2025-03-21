@@ -2,8 +2,8 @@ import { SyntheticEvent } from "react";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import { useAppDispatch, useAppSelector } from "@/common/hooks";
-import { selectAppError } from "@/app/app-selectors";
-import { setAppError } from "@/app/app-reducer";
+import { selectAppError } from "@/app/providers/theme/app-selectors";
+import { setAppError } from "@/app/providers/theme/app-reducer";
 
 export const ErrorSnackbar = () => {
   const dispatch = useAppDispatch();
@@ -19,17 +19,8 @@ export const ErrorSnackbar = () => {
     setTimeout(() => dispatch(setAppError({ error: null }), 2000));
   };
   return (
-    <Snackbar
-      open={error !== null}
-      autoHideDuration={6000}
-      onClose={handleClose}
-    >
-      <Alert
-        onClose={handleClose}
-        severity="error"
-        variant="filled"
-        sx={{ width: "100%" }}
-      >
+    <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity="error" variant="filled" sx={{ width: "100%" }}>
         {error && error}
       </Alert>
     </Snackbar>

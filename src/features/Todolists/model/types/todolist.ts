@@ -1,5 +1,4 @@
-import { DomainTask } from "../../api/tasksApi.types";
-
+import { DomainTask } from "../../api/api";
 
 export type TodolistType = {
   id: string;
@@ -14,6 +13,5 @@ export interface Task {
 export type TasksType = Record<string, Task[]>;
 
 export type FilterValues = "all" | "active" | "completed";
-
 
 export type TasksState = Record<string, DomainTask[]>;

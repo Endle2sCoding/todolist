@@ -15,11 +15,7 @@ export const Page404 = () => {
     >
       <h1 className={s.title}>404</h1>
       <h2 className={s.subTitle}>page not found</h2>
-      <NavButton
-        href="/"
-        variant="contained"
-        sx={{ margin: "100px auto" }}
-      >
+      <NavButton href="/" variant="contained" sx={{ margin: "100px auto" }}>
         {`вернуться на главную`.toUpperCase()}
       </NavButton>
     </div>

@@ -1,8 +1,8 @@
-import { Main } from "@/pages/Main";
+import { MainPage } from "@/pages/MainPage";
 
 import { Route, Routes } from "react-router";
 import { Page404 } from "../../../pages/Page404/Page404";
-import { Login } from "@/features/auth/ui/Login/Login";
+// import { Login } from "@/features/auth/ui/Login/Login";
 export const Path = {
   Main: "/",
   Login: "login",
@@ -13,22 +13,9 @@ export const Path = {
 export const Routing = () => {
   return (
     <Routes>
-      <Route
-        path={Path.Main}
-        element={<Main />}
-      />
-      <Route
-        path={Path.Login}
-        element={<Login />}
-      />
-      <Route
-        path={Path.Signup}
-        element={<Login />}
-      />
-      <Route
-        path={Path.NotFound}
-        element={<Page404 />}
-      />
+      <Route path={Path.Main} element={<MainPage />} />
+
+      <Route path={Path.NotFound} element={<Page404 />} />
     </Routes>
   );
 };

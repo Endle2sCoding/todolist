@@ -3,7 +3,7 @@ import "./App.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { selectThemeMode } from "./app-selectors";
+import { selectThemeMode } from "./providers/theme/app-selectors";
 import { getTheme } from "@/common/theme";
 import { Header } from "@/widgets/Header";
 import { useAppSelector } from "@/common/hooks";
