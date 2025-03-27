@@ -3,13 +3,13 @@ import "./App.css";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { selectThemeMode } from "./providers/theme/app-selectors";
-import { getTheme } from "@/common/theme";
+import { getTheme } from "@/shared/theme";
 import { Header } from "@/widgets/Header";
-import { useAppSelector } from "@/common/hooks";
+import { useAppSelector } from "@/shared/hooks";
 
-import { ErrorSnackbar } from "@/common/components/ErrorSnackbar";
+import { ErrorSnackbar } from "@/shared/ui/ErrorSnackbar";
 import { Routing } from "@/app/providers/routing/Routing";
+import { selectThemeMode } from "./model/app-slice";
 
 export const App = () => {
   const themeMode = useAppSelector(selectThemeMode);

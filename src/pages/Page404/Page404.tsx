@@ -1,5 +1,5 @@
 import s from "./Page404.module.css";
-import { NavButton } from "../../common/components/NavButton";
+import { NavButton } from "../../shared/ui/NavButton";
 
 export const Page404 = () => {
   return (

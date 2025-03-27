@@ -1,41 +1,32 @@
 import { Container, Grid2 as Grid } from "@mui/material";
 
-import { Todolists } from "@/features/Todolists/ui/Todolists";
+import { Todolists } from "@/widgets/Todolists/ui/Todolists";
 import {
   changeTodolistTitleAC,
   createTodolistAC,
   removeTodolistAC,
-} from "@/features/Todolists/model/slices/todolists-reducer";
-import {
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  createTaskAC,
-  removeTaskAC,
-} from "@/features/Todolists/model/slices/tasks-reducer";
-import { useAppDispatch } from "@/common/hooks";
+} from "@/widgets/Todolists/model/slices/todolists-reducer";
+
+import { useAppDispatch } from "@/shared/hooks";
 
 import { nanoid } from "@reduxjs/toolkit";
 import { CreateItemForm } from "@/features/CreateItemForm";
 import { useEffect, useState } from "react";
 
-import { Todolist } from "@/features/Todolists/api/api";
-import { todolistsApi } from "@/features/Todolists/api/todolistsApi";
-import { tasksApi } from "@/features/Todolists/api/tasksApi";
-import { TasksState } from "@/features/Todolists/model/types/todolist";
-
-import { TaskStatus } from "@/common/enums";
+import { Todolist } from "@/widgets/Todolists/api/api";
+import { todolistsApi } from "@/widgets/Todolists/api/todolistsApi";
+import { tasksApi } from "@/widgets/Todolists/api/tasksApi";
+import { TasksState } from "@/widgets/Todolists/model/types/todolist";
+import { TaskStatus } from "@/shared/enums";
 
 export const MainPage = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([]);
   useEffect(() => {
     todolistsApi.getTodolists().then((res) => {
-      console.log("getTodolists res.data---", res.data);
       const todolists = res.data;
       setTodolists(todolists);
       todolists.forEach((todolist) => {
         tasksApi.getTasks(todolist.id).then((res) => {
-          console.log("getTasks todolist.id---", todolist.id);
-          console.log("getTasks res.data---", res.data);
           setTasks((prevTasks) => {
             return { ...prevTasks, [todolist.id]: res.data.items };
           });
@@ -52,7 +43,7 @@ export const MainPage = () => {
     dispatch(createTodolistAC({ id, title }));
     todolistsApi.createTodolist(title).then((res) => {
       setTodolists([{ ...res.data.data.item }, ...todolists]);
-      console.log(res.data.data?.item);
+      setTasks({ ...tasks, [id]: [] });
     });
   };
   const removeTodolist = (id: string) => {
@@ -72,31 +63,27 @@ export const MainPage = () => {
     });
   };
   const createTask = ({ todolistId, title }: { todolistId: string; title: string }) => {
-    // dispatch(
-    //   createTaskAC({
-    //     todolistId,
-    //     title,
-    //   }));
+    console.log("createTask tasks", tasks);
     tasksApi.createTask({ todolistId, title }).then((res) => {
-      console.log("createTask", res.data);
-      setTasks({ ...tasks, [todolistId]: [res.data.data.item, ...tasks[todolistId]] });
+      if (tasks[todolistId]?.length) {
+        setTasks({
+          ...tasks,
+          [todolistId]: [res.data.data.item, ...tasks[todolistId]],
+        });
+      } else {
+        setTasks({
+          ...tasks,
+          [todolistId]: [res.data.data.item],
+        });
+      }
     });
   };
 
   const changeTaskTitle = ({ todolistId, taskId, title }: { todolistId: string; taskId: string; title: string }) => {
-    // dispatch(
-    //   changeTaskTitleAC({
-    //     todolistId,
-    //     taskId,
-    //     title,
-    //   }),
-    // );
     const index = todolists.findIndex((tl) => tl.id === todolistId);
     const task = tasks[todolistId][index];
 
     tasksApi.updateTask({ todolistId, taskId, model: { ...task, title } }).then((res) => {
-      console.log("changeTaskTitle updateTask res.data", res.data);
-
       setTasks({
         ...tasks,
         [todolistId]: [...tasks[todolistId].map((t) => (t.id === taskId ? res.data.data.item : t))],
@@ -113,14 +100,6 @@ export const MainPage = () => {
     taskId: string;
     isDone: boolean;
   }) => {
-    //   dispatch(
-    //     changeTaskStatusAC({
-    //       todolistId,
-    //       taskId,
-    //       isDone,
-    //     }),
-    //   );
-
     const index = todolists.findIndex((tl) => tl.id === todolistId);
     const task = tasks[todolistId][index];
 
@@ -131,7 +110,6 @@ export const MainPage = () => {
         model: { ...task, status: isDone === false ? TaskStatus.New : TaskStatus.Completed },
       })
       .then((res) => {
-        console.log("changeTaskStatus updateTask res.data", res.data);
         setTasks({
           ...tasks,
           [todolistId]: [...tasks[todolistId].map((t) => (t.id === taskId ? res.data.data.item : t))],
@@ -140,14 +118,8 @@ export const MainPage = () => {
   };
 
   const removeTask = ({ todolistId, taskId }: { todolistId: string; taskId: string }) => {
-    // dispatch(
-    //   removeTaskAC({
-    //     todolistId,
-    //     taskId,
-    //   }),
-    // );
-    tasksApi.deleteTask({ todolistId, taskId }).then((res) => {
-      console.log("removeTask res.data", res.data);
+    tasksApi.deleteTask({ todolistId, taskId }).then(() => {
+      setTasks({ ...tasks, [todolistId]: [...tasks[todolistId].filter((t) => t.id !== taskId)] });
     });
   };
   return (
