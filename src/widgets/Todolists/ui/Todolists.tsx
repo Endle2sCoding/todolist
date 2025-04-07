@@ -1,50 +1,32 @@
-import { TodolistItem } from "@/widgets/Todolists/ui/TodolistItem/TodolistItem";
-import { Grid2 as Grid, Paper } from "@mui/material";
+import { TodolistItem } from "./TodolistItem";
 
-import { Todolist } from "../api/api";
-import { TasksState } from "../model/types/todolist";
-
-export const Todolists = ({
-  todolists,
-  tasks,
-  removeTodolist,
-  changeTodolistTitle,
-  createTask,
-  removeTask,
-  changeTaskTitle,
-  changeTaskStatus,
-}: {
-  todolists: Todolist[];
-  tasks: TasksState;
-  removeTodolist: (id: string) => void;
-  changeTodolistTitle: (id: string, title: string) => void;
-
-  createTask: ({ todolistId, title }: { todolistId: string; title: string }) => void;
-  removeTask: ({ todolistId, taskId }: { todolistId: string; taskId: string }) => void;
-  changeTaskTitle: ({ todolistId, taskId, title }: { todolistId: string; taskId: string; title: string }) => void;
-  changeTaskStatus: ({ todolistId, taskId, isDone }: { todolistId: string; taskId: string; isDone: boolean }) => void;
-}) => {
+import s from "./Todolists.module.scss";
+interface TodolistsProps {
+  className?: string;
+}
+export type Task = {
+  id: number;
+  title: string;
+  isDone: boolean;
+};
+export const Todolists = ({ className }: TodolistsProps) => {
+  const tasks1: Task[] = [
+    { id: 1, title: "HTML&CSS", isDone: true },
+    { id: 2, title: "JS", isDone: true },
+    { id: 3, title: "ReactJS", isDone: false },
+  ];
   return (
-    <>
-      {todolists?.map((tl, i) => {
+    <div className={`${s.todolists} ${className ? className : ""}`}>
+      {new Array(3).fill("").map((_, i) => {
         return (
-          <Grid key={tl.id}>
-            <Paper sx={{ p: "0 20px 20px 20px" }}>
-              <TodolistItem
-                key={tl.id + `${i}`}
-                todolist={tl}
-                tasks={tasks}
-                removeTodolist={removeTodolist}
-                changeTodolistTitle={changeTodolistTitle}
-                createTask={createTask}
-                removeTask={removeTask}
-                changeTaskTitle={changeTaskTitle}
-                changeTaskStatus={changeTaskStatus}
-              />
-            </Paper>
-          </Grid>
+          <TodolistItem
+            title="123"
+            key={i}
+            tasks={tasks1}
+          />
         );
       })}
-    </>
+      <div>Todolists</div>
+    </div>
   );
 };
