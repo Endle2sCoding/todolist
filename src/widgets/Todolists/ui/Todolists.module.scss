@@ -1,9 +1,7 @@
-.error {
-  border: red 1px solid;
-}
-
-.error-message {
-  color: red;
+.container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .active-filter {
