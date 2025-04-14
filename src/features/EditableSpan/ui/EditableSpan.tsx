@@ -1,5 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import s from "./EditableSpan.module.scss";
+import { TextField } from "@mui/material";
 interface EditableSpanProps {
   value: string;
   changeTitle: (value: string) => void;
@@ -12,6 +13,11 @@ export const EditableSpan = ({
 }: EditableSpanProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [title, setTitle] = useState(value);
+
+  const hangdleChangeTitle = () => {
+    changeTitle(title);
+    setIsEditMode(false);
+  };
   return (
     <>
       {!isEditMode ? (
@@ -22,21 +28,22 @@ export const EditableSpan = ({
           {value}
         </span>
       ) : (
-        <input
+        <TextField
+          variant={"outlined"}
           value={title}
+          size={"small"}
           autoFocus
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setTitle(e.currentTarget.value);
           }}
           onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
-            setTitle(e.currentTarget.value);
             if (e.key === "Enter") {
-              changeTitle(e.currentTarget.value);
-              setIsEditMode(false);
+              hangdleChangeTitle();
             }
           }}
-          onBlur={() => setIsEditMode(false)}
-          className={`${s.editableSpan} ${className ? className : ""}`}
+          onBlur={() => {
+            hangdleChangeTitle();
+          }}
         />
       )}
     </>

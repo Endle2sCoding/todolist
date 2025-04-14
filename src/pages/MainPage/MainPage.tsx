@@ -5,7 +5,6 @@ interface MainPageProps {
 }
 
 export const MainPage = ({ className }: MainPageProps) => {
-
   return (
     <div className={`${className ? className : ""}`}>
       <Todolists />

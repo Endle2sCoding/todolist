@@ -1,6 +1,8 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import s from "./CreateItemForm.module.scss";
-import { AppButon } from "@/shared/ui/AppButon/AppButon";
+import Button from "@mui/material/Button";
+import { TextField } from "@mui/material";
+
 interface CreateItemFormProps {
   createItem: (value: string) => void;
   className?: string;
@@ -23,8 +25,12 @@ export const CreateItemForm = ({
 
   return (
     <div className={`${s.createItemForm} ${className ? className : ""}`}>
-      <input
+      <TextField
+        label={"Enter a title"}
+        variant={"outlined"}
+        className={error ? "error" : ""}
         value={inputValue}
+        size={"small"}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setInputValue(e.currentTarget.value);
           setError(null);
@@ -34,10 +40,15 @@ export const CreateItemForm = ({
             createTaskHandler();
           }
         }}
-        className={`${error ? s.error : ""}`}
+        error={!!error}
+        helperText={error}
       />
-      <AppButon onClick={createTaskHandler}>+</AppButon>
-      {error && <div className={s["error-message"]}>{error}</div>}
+      <Button
+        variant="contained"
+        onClick={createTaskHandler}
+      >
+        +
+      </Button>
     </div>
   );
 };

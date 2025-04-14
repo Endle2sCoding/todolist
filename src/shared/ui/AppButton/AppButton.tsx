@@ -1,14 +1,14 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface AppButonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface AppButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   className?: string;
 }
-export const AppButon = ({
+export const AppButton = ({
   children,
   className,
   ...otherProps
-}: AppButonProps) => {
+}: AppButtonProps) => {
   return (
     <button
       {...otherProps}

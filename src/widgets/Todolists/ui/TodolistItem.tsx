@@ -1,9 +1,15 @@
-import { AppButon } from "@/shared/ui/AppButon/AppButon";
 import { FilterTypes, Task, Todolist } from "./Todolists";
 import { ChangeEvent } from "react";
-import s from "./Todolists.module.scss";
 import { CreateItemForm } from "@/features/CreateItemForm";
-import { EditableSpan } from "@/features/EditableSpan/ui/EditableSpan";
+import { EditableSpan } from "@/features/EditableSpan";
+import Button from "@mui/material/Button";
+
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Checkbox } from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+
 
 interface TodolistItemProps {
   title: string;
@@ -50,56 +56,58 @@ export const TodolistItem = ({
             changeTodolistTitle(todolist.id, value)
           }
         />
-
-        <AppButon onClick={() => deleteTodolist(todolist.id)}>X</AppButon>
+        <IconButton onClick={() => deleteTodolist(todolist.id)}>
+          <DeleteIcon />
+        </IconButton>
       </>
       <CreateItemForm createItem={createTaskHandler} />
       {tasks.length === 0 ? (
         <div>Тасок нет</div>
       ) : (
-        <ul>
+        <List>
           {tasks.map((t) => (
-            <li key={t.id}>
-              <input
-                type="checkbox"
+            <ListItem key={t.id}>
+              <Checkbox
                 checked={t.isDone}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   changeTaskStatus(t.id, e.currentTarget.checked, todolist.id);
                 }}
               />
-
               <EditableSpan
                 value={t.title}
                 changeTitle={(value: string) =>
                   changeTaskTitle(t.id, value, todolist.id)
                 }
               />
-              <AppButon onClick={() => removeTask(t.id, todolist.id)}>
-                x
-              </AppButon>
-            </li>
+              <IconButton onClick={() => removeTask(t.id, todolist.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </ListItem>
           ))}
-        </ul>
+        </List>
       )}
       <div>
-        <AppButon
-          className={todolist.filter === "all" ? s["active-filter"] : ""}
+        <Button
+          variant={todolist.filter === "all" ? "outlined" : "text"}
+          color={"inherit"}
           onClick={() => changeTaskFilter(todolist.id, "all")}
         >
           All
-        </AppButon>
-        <AppButon
-          className={todolist.filter === "active" ? s["active-filter"] : ""}
+        </Button>
+        <Button
+          variant={todolist.filter === "active" ? "outlined" : "text"}
+          color={"primary"}
           onClick={() => changeTaskFilter(todolist.id, "active")}
         >
           Active
-        </AppButon>
-        <AppButon
-          className={todolist.filter === "competed" ? s["active-filter"] : ""}
+        </Button>
+        <Button
+          variant={todolist.filter === "competed" ? "outlined" : "text"}
+          color={"secondary"}
           onClick={() => changeTaskFilter(todolist.id, "competed")}
         >
           Completed
-        </AppButon>
+        </Button>
       </div>
     </div>
   );

@@ -3,6 +3,9 @@ import { TodolistItem } from "./TodolistItem";
 import s from "./Todolists.module.scss";
 import { v1 } from "uuid";
 import { CreateItemForm } from "@/features/CreateItemForm";
+import Container from "@mui/material/Container";
+import { Grid } from "@mui/material";
+import Paper from "@mui/material/Paper";
 
 interface TodolistsProps {
   className?: string;
@@ -118,37 +121,47 @@ export const Todolists = ({ className }: TodolistsProps) => {
 
   return (
     <div className={`${s.todolists} ${className ? className : ""}`}>
-      <CreateItemForm createItem={createTodolist} />
-      <div className={s.container}>
-        {todolists.map((tl) => {
-          let filtredTasks = tasks[tl.id];
-          if (tl.filter === "active") {
-            filtredTasks = tasks[tl.id].filter((t) => t.isDone);
-          }
-          if (tl.filter === "competed") {
-            filtredTasks = tasks[tl.id].filter((t) => !t.isDone);
-          }
-
-          return (
-            <TodolistItem
-              key={tl.id}
-              title={tl.title}
-              tasks={filtredTasks}
-              removeTask={removeTask}
-              changeTaskFilter={changeTaskFilter}
-              createTask={createTask}
-              changeTaskStatus={changeTaskStatus}
-              error={error}
-              setError={setError}
-              filter={tl.filter}
-              todolist={tl}
-              deleteTodolist={deleteTodolist}
-              changeTaskTitle={changeTaskTitle}
-              changeTodolistTitle={changeTodolistTitle}
-            />
-          );
-        })}
-      </div>
+      <Container maxWidth={"lg"}>
+        <Grid container>
+          <CreateItemForm createItem={createTodolist} />
+        </Grid>
+      </Container>
+      <Container maxWidth={"lg"}>
+        <Grid
+          container
+          spacing={4}
+        >
+          {todolists.map((tl) => {
+            let filtredTasks = tasks[tl.id];
+            if (tl.filter === "active") {
+              filtredTasks = tasks[tl.id].filter((t) => t.isDone);
+            }
+            if (tl.filter === "competed") {
+              filtredTasks = tasks[tl.id].filter((t) => !t.isDone);
+            }
+            return (
+              <Paper>
+                <TodolistItem
+                  key={tl.id}
+                  title={tl.title}
+                  tasks={filtredTasks}
+                  removeTask={removeTask}
+                  changeTaskFilter={changeTaskFilter}
+                  createTask={createTask}
+                  changeTaskStatus={changeTaskStatus}
+                  error={error}
+                  setError={setError}
+                  filter={tl.filter}
+                  todolist={tl}
+                  deleteTodolist={deleteTodolist}
+                  changeTaskTitle={changeTaskTitle}
+                  changeTodolistTitle={changeTodolistTitle}
+                />
+              </Paper>
+            );
+          })}
+        </Grid>
+      </Container>
     </div>
   );
 };
