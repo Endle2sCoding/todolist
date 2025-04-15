@@ -6,10 +6,10 @@ import Button from "@mui/material/Button";
 
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Checkbox } from "@mui/material";
+import { Box, Checkbox } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-
+import { containerSx, getListItemSx } from "./TodolistItem.styles";
 
 interface TodolistItemProps {
   title: string;
@@ -66,7 +66,10 @@ export const TodolistItem = ({
       ) : (
         <List>
           {tasks.map((t) => (
-            <ListItem key={t.id}>
+            <ListItem
+              key={t.id}
+              sx={getListItemSx(t.isDone)}
+            >
               <Checkbox
                 checked={t.isDone}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +89,7 @@ export const TodolistItem = ({
           ))}
         </List>
       )}
-      <div>
+      <Box sx={containerSx}>
         <Button
           variant={todolist.filter === "all" ? "outlined" : "text"}
           color={"inherit"}
@@ -108,7 +111,7 @@ export const TodolistItem = ({
         >
           Completed
         </Button>
-      </div>
+      </Box>
     </div>
   );
 };

@@ -121,7 +121,10 @@ export const Todolists = ({ className }: TodolistsProps) => {
 
   return (
     <div className={`${s.todolists} ${className ? className : ""}`}>
-      <Container maxWidth={"lg"}>
+      <Container
+        maxWidth={"lg"}
+        sx={{ mb: "30px" }}
+      >
         <Grid container>
           <CreateItemForm createItem={createTodolist} />
         </Grid>
@@ -140,7 +143,7 @@ export const Todolists = ({ className }: TodolistsProps) => {
               filtredTasks = tasks[tl.id].filter((t) => !t.isDone);
             }
             return (
-              <Paper>
+              <Paper sx={{ p: "0 20px 20px 20px" }}>
                 <TodolistItem
                   key={tl.id}
                   title={tl.title}

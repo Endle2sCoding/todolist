@@ -1,7 +1,9 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react";
+import TextField from "@mui/material/TextField";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import IconButton from "@mui/material/IconButton";
+
 import s from "./CreateItemForm.module.scss";
-import Button from "@mui/material/Button";
-import { TextField } from "@mui/material";
 
 interface CreateItemFormProps {
   createItem: (value: string) => void;
@@ -14,7 +16,7 @@ export const CreateItemForm = ({
   const [inputValue, setInputValue] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const createTaskHandler = () => {
+  const createItemHandler = () => {
     if (inputValue.trim().length === 0) {
       setError("Text is required");
     } else {
@@ -37,18 +39,18 @@ export const CreateItemForm = ({
         }}
         onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") {
-            createTaskHandler();
+            createItemHandler();
           }
         }}
         error={!!error}
         helperText={error}
       />
-      <Button
-        variant="contained"
-        onClick={createTaskHandler}
+      <IconButton
+        onClick={createItemHandler}
+        color={"primary"}
       >
-        +
-      </Button>
+        <AddBoxIcon />
+      </IconButton>
     </div>
   );
 };
