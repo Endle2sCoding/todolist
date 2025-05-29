@@ -3,28 +3,58 @@ import type { FilterType, TaskType } from "../../model/types/todolist";
 
 interface TodolistItemProps {
   title: string;
+  todolistId: string;
   tasks: TaskType[];
-  deleteTask: (taskId: string) => void;
+  deleteTask: ({
+    todolistId,
+    taskId,
+  }: {
+    todolistId: string;
+    taskId: string;
+  }) => void;
   filter: FilterType;
-  setFilter: (filter: FilterType) => void;
-  createTask: (title: string) => void;
+  changeFilter: ({
+    filter,
+    todolistId,
+  }: {
+    filter: FilterType;
+    todolistId: string;
+  }) => void;
+  createTask: ({
+    todolistId,
+    title,
+  }: {
+    todolistId: string;
+    title: string;
+  }) => void;
+  changeTaskStatus: ({
+    todolistId,
+    taskId,
+    status,
+  }: {
+    todolistId: string;
+    taskId: string;
+    status: boolean;
+  }) => void;
   className?: string;
 }
 const fBtn: FilterType[] = ["all", "active", "completed"];
 export const TodolistItem = ({
+  todolistId,
   title,
   tasks,
-  deleteTask,
   filter,
-  setFilter,
+  changeFilter,
+  deleteTask,
   createTask,
+  changeTaskStatus,
   className,
 }: TodolistItemProps) => {
   const [value, setValue] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const createTaskHandler = () => {
     if (value.trim() !== "") {
-      createTask(value);
+      createTask({ todolistId, title: value });
       setValue("");
     } else {
       setError("Field is required!");
@@ -75,9 +105,18 @@ export const TodolistItem = ({
               <input
                 type="checkbox"
                 checked={t.isDone}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  changeTaskStatus({
+                    todolistId,
+                    taskId: t.id,
+                    status: e.currentTarget.checked,
+                  })
+                }
               />
               <span>{t.title}</span>
-              <button onClick={() => deleteTask(t.id)}>x</button>
+              <button onClick={() => deleteTask({ todolistId, taskId: t.id })}>
+                x
+              </button>
             </li>
           ))
         ) : (
@@ -87,9 +126,10 @@ export const TodolistItem = ({
       <div>
         {fBtn.map((b) => (
           <button
+            key={b}
             className={filter === b ? "active-filter" : ""}
             onClick={() => {
-              setFilter(b);
+              changeFilter({ filter: b, todolistId });
             }}
           >
             {b.charAt(0).toUpperCase() + b.slice(1)}
