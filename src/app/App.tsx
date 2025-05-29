@@ -1,5 +1,5 @@
+import { Todolist } from "@/widgets/Todolist";
 import "./App.css";
-import { Todolist } from "../widgets/Todolist/ui/Todolist";
 
 function App() {
   return <Todolist />;

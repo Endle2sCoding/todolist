@@ -30,7 +30,10 @@ export const Todolist = ({ className }: TodolistProps) => {
     filtredTasks = tasks.filter((t) => t.isDone);
   }
   return (
-    <div className={`${className ? className : ""}`}>
+    <div
+      style={{ display: "flex", padding: "15px" }}
+      className={`${className ? className : ""}`}
+    >
       <TodolistItem
         title="What to learn"
         tasks={filtredTasks}

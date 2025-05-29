@@ -21,24 +21,28 @@ export const TodolistItem = ({
   className,
 }: TodolistItemProps) => {
   const [value, setValue] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
   const createTaskHandler = () => {
     if (value.trim() !== "") {
       createTask(value);
       setValue("");
+    } else {
+      setError("Field is required!");
     }
-    // else {
-    //   setError("Field is required!");
-    // }
   };
   return (
     <div
       className={`${className ? className : ""}`}
-      style={{ backgroundColor: "#202020" }}
+      style={{
+        backgroundColor: "#202020",
+        padding: "20px",
+        borderRadius: "15px",
+      }}
     >
       <h3>{title}</h3>
       <div>
         <input
+          className={error ? "error" : ""}
           value={value}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             if (value.length) {
@@ -46,12 +50,12 @@ export const TodolistItem = ({
             }
             setValue(e.currentTarget.value);
           }}
-          // onFocus={() => setError("")}
-          // onBlur={() => {
-          //   if (!value) {
-          //     setError("Field is required!");
-          //   }
-          // }}
+          onFocus={() => setError(null)}
+          onBlur={() => {
+            if (!value) {
+              setError("Field is required!");
+            }
+          }}
           onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") {
               createTaskHandler();
@@ -59,12 +63,15 @@ export const TodolistItem = ({
           }}
         />
         <button onClick={createTaskHandler}>+</button>
-        <div>{error}</div>
+        {error && <div className={"error-message"}>{error}</div>}
       </div>
       <ul>
         {tasks.length !== 0 ? (
           tasks.map((t) => (
-            <li key={t.id}>
+            <li
+              key={t.id}
+              className={t.isDone ? "is-done" : ""}
+            >
               <input
                 type="checkbox"
                 checked={t.isDone}
@@ -80,6 +87,7 @@ export const TodolistItem = ({
       <div>
         {fBtn.map((b) => (
           <button
+            className={filter === b ? "active-filter" : ""}
             onClick={() => {
               setFilter(b);
             }}
