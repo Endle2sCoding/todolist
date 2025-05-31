@@ -1,5 +1,6 @@
-import { useState, type ChangeEvent, type KeyboardEvent } from "react";
+import { type ChangeEvent } from "react";
 import type { FilterType, TaskType } from "../../model/types/todolist";
+import { CreateItemForm } from "@/features/CreateItemForm";
 
 interface TodolistItemProps {
   title: string;
@@ -36,6 +37,8 @@ interface TodolistItemProps {
     taskId: string;
     status: boolean;
   }) => void;
+  deleteTodolist: (todolistId: string) => void;
+  createTotolist: (title: string) => void;
   className?: string;
 }
 const fBtn: FilterType[] = ["all", "active", "completed"];
@@ -48,17 +51,11 @@ export const TodolistItem = ({
   deleteTask,
   createTask,
   changeTaskStatus,
+  deleteTodolist,
   className,
 }: TodolistItemProps) => {
-  const [value, setValue] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-  const createTaskHandler = () => {
-    if (value.trim() !== "") {
-      createTask({ todolistId, title: value });
-      setValue("");
-    } else {
-      setError("Field is required!");
-    }
+  const createTaskHandler = (title: string) => {
+    createTask({ todolistId, title: title });
   };
   return (
     <div
@@ -69,32 +66,12 @@ export const TodolistItem = ({
         borderRadius: "15px",
       }}
     >
-      <h3>{title}</h3>
       <div>
-        <input
-          className={error ? "error" : ""}
-          value={value}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            if (value.length) {
-              setError("");
-            }
-            setValue(e.currentTarget.value);
-          }}
-          onFocus={() => setError(null)}
-          onBlur={() => {
-            if (!value) {
-              setError("Field is required!");
-            }
-          }}
-          onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter") {
-              createTaskHandler();
-            }
-          }}
-        />
-        <button onClick={createTaskHandler}>+</button>
-        {error && <div className={"error-message"}>{error}</div>}
+        <h3>{title}</h3>
+        <button onClick={() => deleteTodolist(todolistId)}>x</button>
       </div>
+
+      <CreateItemForm createItem={createTaskHandler} />
       <ul>
         {tasks.length !== 0 ? (
           tasks.map((t) => (
