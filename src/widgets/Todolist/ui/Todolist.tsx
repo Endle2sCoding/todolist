@@ -87,17 +87,46 @@ export const Todolist = ({ className }: TodolistProps) => {
       ],
     });
   };
+  const changeTaskTitle = ({
+    todolistId,
+    taskId,
+    title,
+  }: {
+    todolistId: string;
+    taskId: string;
+    title: string;
+  }) => {
+    setTasks({
+      ...tasks,
+      [todolistId]: [
+        ...tasks[todolistId].map((t) =>
+          t.id === taskId ? { ...t, title } : t
+        ),
+      ],
+    });
+  };
 
   const deleteTodolist = (todolistId: string) => {
     setTodolists([...todolists.filter((tl) => tl.id !== todolistId)]);
     delete tasks[todolistId];
   };
-
   const createTotolist = (title: string) => {
     const newId = v1();
     setTodolists([{ id: newId, title: title, filter: "all" }, ...todolists]);
     setTasks({ [newId]: [], ...tasks });
   };
+  const changeTodolistTitle = ({
+    todolistId,
+    title,
+  }: {
+    todolistId: string;
+    title: string;
+  }) => {
+    setTodolists([
+      ...todolists.map((tl) => (tl.id === todolistId ? { ...tl, title } : tl)),
+    ]);
+  };
+
   return (
     <div
       style={{ padding: "15px" }}
@@ -124,8 +153,10 @@ export const Todolist = ({ className }: TodolistProps) => {
               deleteTask={deleteTask}
               createTask={createTask}
               changeTaskStatus={changeTaskStatus}
+              changeTaskTitle={changeTaskTitle}
               deleteTodolist={deleteTodolist}
               createTotolist={createTotolist}
+              changeTodolistTitle={changeTodolistTitle}
             />
           );
         })}
