@@ -7,6 +7,9 @@ import type {
 import { TodolistItem } from "./TodolistItem/TodolistItem";
 import { v1 } from "uuid";
 import { CreateItemForm } from "@/features/CreateItemForm";
+import Container from "@mui/material/Container";
+import { Grid } from "@mui/material";
+import Paper from "@mui/material/Paper";
 
 interface TodolistProps {
   className?: string;
@@ -128,12 +131,17 @@ export const Todolist = ({ className }: TodolistProps) => {
   };
 
   return (
-    <div
-      style={{ padding: "15px" }}
+    <Container
+      maxWidth={"lg"}
       className={`${className ? className : ""}`}
     >
-      <CreateItemForm createItem={createTotolist} />
-      <div style={{ display: "flex", paddingTop: "15px", gap: "20px" }}>
+      <Grid container>
+        <CreateItemForm createItem={createTotolist} />
+      </Grid>
+      <Grid
+        container
+        spacing={4}
+      >
         {todolists.map((tl) => {
           let filtredTasks = tasks[tl.id];
           if (tl.filter === "active") {
@@ -143,24 +151,28 @@ export const Todolist = ({ className }: TodolistProps) => {
             filtredTasks = tasks[tl.id].filter((t) => t.isDone);
           }
           return (
-            <TodolistItem
-              key={tl.id}
-              todolistId={tl.id}
-              title={tl.title}
-              filter={tl.filter}
-              changeFilter={changeFilter}
-              tasks={filtredTasks}
-              deleteTask={deleteTask}
-              createTask={createTask}
-              changeTaskStatus={changeTaskStatus}
-              changeTaskTitle={changeTaskTitle}
-              deleteTodolist={deleteTodolist}
-              createTotolist={createTotolist}
-              changeTodolistTitle={changeTodolistTitle}
-            />
+            <Grid key={tl.id}>
+              <Paper>
+                <TodolistItem
+                  key={tl.id}
+                  todolistId={tl.id}
+                  title={tl.title}
+                  filter={tl.filter}
+                  changeFilter={changeFilter}
+                  tasks={filtredTasks}
+                  deleteTask={deleteTask}
+                  createTask={createTask}
+                  changeTaskStatus={changeTaskStatus}
+                  changeTaskTitle={changeTaskTitle}
+                  deleteTodolist={deleteTodolist}
+                  createTotolist={createTotolist}
+                  changeTodolistTitle={changeTodolistTitle}
+                />
+              </Paper>
+            </Grid>
           );
         })}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 };

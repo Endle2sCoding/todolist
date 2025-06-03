@@ -1,4 +1,6 @@
 import { useState, type ChangeEvent, type KeyboardEvent } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 interface CreateItemFormProps {
   createItem: (title: string) => void;
@@ -22,13 +24,15 @@ export const CreateItemForm = ({
 
   return (
     <div className={`${className ? className : ""}`}>
-      <input
+      <TextField
+        label={"Enter a title"}
+        variant={"outlined"}
         className={error ? "error" : ""}
         value={value}
+        size={"small"}
+        error={!!error}
+        helperText={error}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          if (value.length) {
-            setError("");
-          }
           setValue(e.currentTarget.value);
         }}
         onFocus={() => setError(null)}
@@ -41,10 +45,18 @@ export const CreateItemForm = ({
           if (e.key === "Enter") {
             createTaskHandler();
           }
+          if (value !== "") {
+            setError("");
+          }
         }}
       />
-      <button onClick={createTaskHandler}>+</button>
-      {error && <div className={"error-message"}>{error}</div>}
+
+      <Button
+        variant="contained"
+        onClick={createTaskHandler}
+      >
+        +
+      </Button>
     </div>
   );
 };

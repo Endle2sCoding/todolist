@@ -1,4 +1,5 @@
-import { useState, type ChangeEvent } from "react";
+import TextField from "@mui/material/TextField";
+import { useState, type ChangeEvent, type KeyboardEvent } from "react";
 
 interface EditableSpanProps {
   value: string;
@@ -12,7 +13,9 @@ export const EditableSpan = ({ value, changeValue }: EditableSpanProps) => {
       {!isEdit ? (
         <span onDoubleClick={() => setIsEdit(true)}>{inputValue}</span>
       ) : (
-        <input
+        <TextField
+          variant={"outlined"}
+          size={"small"}
           value={inputValue}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setInputValue(e.currentTarget.value)
@@ -20,6 +23,14 @@ export const EditableSpan = ({ value, changeValue }: EditableSpanProps) => {
           onBlur={() => {
             setIsEdit(false);
             changeValue(inputValue);
+          }}
+          onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
+            {
+              if (e.key === "Enter") {
+                setIsEdit(false);
+                changeValue(inputValue);
+              }
+            }
           }}
           autoFocus
         />

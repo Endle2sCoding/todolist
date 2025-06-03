@@ -2,6 +2,11 @@ import { type ChangeEvent } from "react";
 import type { FilterType, TaskType } from "../../model/types/todolist";
 import { CreateItemForm } from "@/features/CreateItemForm";
 import { EditableSpan } from "@/features/EditableSpan";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 interface TodolistItemProps {
   title: string;
@@ -81,31 +86,26 @@ export const TodolistItem = ({
   };
 
   return (
-    <div
-      className={`${className ? className : ""}`}
-      style={{
-        backgroundColor: "#202020",
-        padding: "20px",
-        borderRadius: "15px",
-      }}
-    >
+    <div className={`${className ? className : ""}`}>
       <div>
         <EditableSpan
           value={title}
           changeValue={changeTodolistTitleHandler}
         />
-        <button onClick={() => deleteTodolist(todolistId)}>x</button>
+        <IconButton onClick={() => deleteTodolist(todolistId)}>
+          <DeleteIcon />
+        </IconButton>
       </div>
 
       <CreateItemForm createItem={createTaskHandler} />
-      <ul>
+      <List>
         {tasks.length !== 0 ? (
           tasks.map((t) => {
             const changeTaskTitleHandler = (title: string) => {
               changeTaskTitle({ todolistId, taskId: t.id, title: title });
             };
             return (
-              <li
+              <ListItem
                 key={t.id}
                 className={t.isDone ? "is-done" : ""}
               >
@@ -124,29 +124,37 @@ export const TodolistItem = ({
                   value={t.title}
                   changeValue={changeTaskTitleHandler}
                 />
-                <button
+
+                <IconButton
                   onClick={() => deleteTask({ todolistId, taskId: t.id })}
                 >
-                  x
-                </button>
-              </li>
+                  <DeleteIcon />
+                </IconButton>
+              </ListItem>
             );
           })
         ) : (
           <div>Тасок нет</div>
         )}
-      </ul>
+      </List>
       <div>
         {fBtn.map((b) => (
-          <button
+          <Button
             key={b}
-            className={filter === b ? "active-filter" : ""}
+            variant={filter === `${b}` ? "outlined" : "text"}
+            color={
+              `${b}` === "all"
+                ? "inherit"
+                : `${b}` === "active"
+                ? "primary"
+                : "secondary"
+            }
             onClick={() => {
               changeFilter({ filter: b, todolistId });
             }}
           >
             {b.charAt(0).toUpperCase() + b.slice(1)}
-          </button>
+          </Button>
         ))}
       </div>
     </div>
