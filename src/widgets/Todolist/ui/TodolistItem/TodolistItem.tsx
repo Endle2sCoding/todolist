@@ -7,6 +7,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import Box from "@mui/material/Box";
+import { containerSx } from "./TodolistItem.styles";
 
 interface TodolistItemProps {
   title: string;
@@ -108,6 +110,11 @@ export const TodolistItem = ({
               <ListItem
                 key={t.id}
                 className={t.isDone ? "is-done" : ""}
+                sx={{
+                  p: 0,
+                  justifyContent: "space-between",
+                  opacity: t.isDone ? 0.5 : 1,
+                }}
               >
                 <input
                   type="checkbox"
@@ -137,7 +144,7 @@ export const TodolistItem = ({
           <div>Тасок нет</div>
         )}
       </List>
-      <div>
+      <Box sx={containerSx}>
         {fBtn.map((b) => (
           <Button
             key={b}
@@ -156,7 +163,7 @@ export const TodolistItem = ({
             {b.charAt(0).toUpperCase() + b.slice(1)}
           </Button>
         ))}
-      </div>
+      </Box>
     </div>
   );
 };

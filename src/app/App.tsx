@@ -9,7 +9,10 @@ import Container from "@mui/material/Container";
 function App() {
   return (
     <>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        sx={{ mb: "30px" }}
+      >
         <Toolbar>
           <Container maxWidth={"lg"}>
             <IconButton color="inherit">

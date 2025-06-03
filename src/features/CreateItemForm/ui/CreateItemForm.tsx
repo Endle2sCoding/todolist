@@ -1,6 +1,8 @@
 import { useState, type ChangeEvent, type KeyboardEvent } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import IconButton from "@mui/material/IconButton";
 
 interface CreateItemFormProps {
   createItem: (title: string) => void;
@@ -13,7 +15,7 @@ export const CreateItemForm = ({
   const [value, setValue] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const createTaskHandler = () => {
+  const createItemHandler = () => {
     if (value.trim() !== "") {
       createItem(value);
       setValue("");
@@ -43,20 +45,19 @@ export const CreateItemForm = ({
         }}
         onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") {
-            createTaskHandler();
+            createItemHandler();
           }
           if (value !== "") {
             setError("");
           }
         }}
       />
-
-      <Button
-        variant="contained"
-        onClick={createTaskHandler}
+      <IconButton
+        onClick={createItemHandler}
+        color={"primary"}
       >
-        +
-      </Button>
+        <AddBoxIcon />
+      </IconButton>
     </div>
   );
 };

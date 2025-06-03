@@ -135,7 +135,10 @@ export const Todolist = ({ className }: TodolistProps) => {
       maxWidth={"lg"}
       className={`${className ? className : ""}`}
     >
-      <Grid container>
+      <Grid
+        container
+        sx={{ mb: "30px" }}
+      >
         <CreateItemForm createItem={createTotolist} />
       </Grid>
       <Grid
@@ -152,7 +155,7 @@ export const Todolist = ({ className }: TodolistProps) => {
           }
           return (
             <Grid key={tl.id}>
-              <Paper>
+              <Paper sx={{ p: "0 20px 20px 20px" }}>
                 <TodolistItem
                   key={tl.id}
                   todolistId={tl.id}
