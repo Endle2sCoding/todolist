@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Box from "@mui/material/Box";
-import { containerSx } from "./TodolistItem.styles";
+import { containerSx, getListItemSx } from "./TodolistItem.styles";
 
 interface TodolistItemProps {
   title: string;
@@ -110,11 +110,7 @@ export const TodolistItem = ({
               <ListItem
                 key={t.id}
                 className={t.isDone ? "is-done" : ""}
-                sx={{
-                  p: 0,
-                  justifyContent: "space-between",
-                  opacity: t.isDone ? 0.5 : 1,
-                }}
+                sx={getListItemSx(t.isDone)}
               >
                 <input
                   type="checkbox"
